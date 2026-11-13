@@ -29,15 +29,12 @@
 <link rel="canonical" href="https://www.fisioaltodepinheiros.com.br/">
 
 <!-- =========================================
-     [03] ⚠️ EDITAR: FAVICON / ÍCONES
-     ⚠️ ATENÇÃO: estas URLs apontam para o domínio da agência
-     (mindfly.com.br). Trocar para o domínio final do cliente
-     antes de publicar em produção.
+     [03] FAVICON / ÍCONES
      ========================================= -->
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.mindfly.com.br/assets/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://www.mindfly.com.br/assets/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.mindfly.com.br/assets/apple-touch-icon.png">
-<link rel="shortcut icon" href="https://www.mindfly.com.br/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://gleisondesign.github.io/FISIOALTODEPINHEIROS/assets/ico.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://gleisondesign.github.io/FISIOALTODEPINHEIROS/assets/ico.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://gleisondesign.github.io/FISIOALTODEPINHEIROS/assets/ico.png">
+<link rel="shortcut icon" href="https://gleisondesign.github.io/FISIOALTODEPINHEIROS/assets/ico.png">
 
 <!-- =========================================
      [04] OPEN GRAPH
@@ -48,8 +45,7 @@
 <meta property="og:title" content="Fisioterapia Alto de Pinheiros | Clínica de Fisioterapia em São Paulo">
 <meta property="og:description" content="Tratamento personalizado, reabilitação, fisioterapia ortopédica e pós-operatório em São Paulo.">
 <meta property="og:url" content="https://www.fisioaltodepinheiros.com.br/">
-<!-- ⚠️ EDITAR: imagem ideal 1250x630px -->
-<meta property="og:image" content="https://www.mindfly.com.br/assets/og-image-fisioterapia.jpg">
+<meta property="og:image" content="https://gleisondesign.github.io/FISIOALTODEPINHEIROS/assets/opengraph.png">
 <meta property="og:image:width" content="1250">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Fisioterapia Alto de Pinheiros - Clínica de Fisioterapia em São Paulo">
@@ -60,17 +56,16 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Fisioterapia Alto de Pinheiros | Clínica de Fisioterapia em São Paulo">
 <meta name="twitter:description" content="Tratamento personalizado, reabilitação e fisioterapia ortopédica em São Paulo.">
-<!-- ⚠️ EDITAR: imagem ideal 1250x630px -->
-<meta name="twitter:image" content="https://www.mindfly.com.br/assets/og-image-fisioterapia.jpg">
+<meta name="twitter:image" content="https://gleisondesign.github.io/FISIOALTODEPINHEIROS/assets/opengraph.png">
 <meta name="twitter:image:alt" content="Fisioterapia Alto de Pinheiros - Clínica de Fisioterapia em São Paulo">
 
 <!-- =========================================
      [06] PERFORMANCE: Preconnect / DNS Prefetch
-     ⚠️ EDITAR: trocar mindfly.com.br pelo domínio final
-     onde os assets estarão hospedados
      ========================================= -->
-<link rel="preconnect" href="https://www.mindfly.com.br">
-<link rel="dns-prefetch" href="https://www.mindfly.com.br">
+<link rel="preconnect" href="https://www.fisioaltodepinheiros.com.br">
+<link rel="dns-prefetch" href="https://www.fisioaltodepinheiros.com.br">
+<link rel="preconnect" href="https://gleisondesign.github.io">
+<link rel="dns-prefetch" href="https://gleisondesign.github.io">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://forms.kommo.com">
@@ -87,7 +82,6 @@
      - Especialidades e Serviços (knowsAbout + hasOfferCatalog)
      - Perguntas e Respostas Diretas (FAQPage) para leitura de LLMs
      - Mapeamento da Página e Seções (WebSite + WebPage)
-     ⚠️ EDITAR FUTURAMENTE: campo "image" (trocar pela URL final da OG Image)
      ========================================= -->
 <script type="application/ld+json">
 {
@@ -104,7 +98,7 @@
       "slogan": "Tratamento personalizado, reabilitação avançada e bem-estar para você viver sem dor.",
       "url": "https://www.fisioaltodepinheiros.com.br/",
       "logo": "https://www.fisioaltodepinheiros.com.br/assets/logoescuro.png",
-      "image": "https://www.mindfly.com.br/assets/og-image-fisioterapia.jpg",
+      "image": "https://gleisondesign.github.io/FISIOALTODEPINHEIROS/assets/opengraph.png",
       "telephone": "+5511978782689",
       "priceRange": "$$",
       "currenciesAccepted": "BRL",
@@ -351,7 +345,7 @@ BREAKPOINT PADRÃO = 1250px
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-height) + 30px);
+  scroll-padding-top: calc(var(--header-height) -30px);
 }
 
 /* Bloqueia duplo toque para zoom e gestos de zoom indesejados */
@@ -1710,6 +1704,8 @@ a {
     max-width: 680px;
     margin: 0;
   }
+  .fap-subtitle-mobile { display: none; }
+  .fap-subtitle-web { display: inline; }
 
   /* =========================================
      TRILHO HORIZONTAL (HORIZONTAL TRACK)
@@ -2104,6 +2100,8 @@ a {
       margin: 0;
       max-width: 100%;
     }
+    .fap-subtitle-web { display: none; }
+    .fap-subtitle-mobile { display: inline; }
 
     .fap-horizontal-viewport {
       padding: 30px 0;
@@ -2206,7 +2204,10 @@ a {
         <div class="fap-horizontal-header-text">
           <span class="fap-dark-eyebrow">Como podemos ajudar</span>
           <h2 class="fap-dark-title" id="fapIncomodosTitle">Onde está o seu incômodo?</h2>
-          <p class="fap-dark-subtitle">Cada dor ou limitação possui causas específicas que exigem uma avaliação criteriosa para elaborção do seu plano de tratamento.</p>
+          <p class="fap-dark-subtitle">
+            <span class="fap-subtitle-web">Cada dor ou limitação possui causas específicas que exigem uma avaliação criteriosa para elaborção do seu plano de tratamento.</span>
+            <span class="fap-subtitle-mobile">Cada dor ou limitação possui causas específicas que exigem uma avaliação.</span>
+          </p>
         </div>
       </div>
 
@@ -4052,9 +4053,38 @@ a {
     .fap-tech-card-text { margin-bottom: 30px !important; font-size: 14.5px; }
     .fap-tech-card-title { font-size: 20px; margin-bottom: 16px; }
 
-    /* Modal do Vídeo mais seguro para Mobile */
-    .fap-reels-content { max-height: 85vh; width: 92%; }
-    .fap-reels-iframe-wrapper { max-height: 85vh; }
+    /* Modal do Vídeo mais seguro para Mobile (altura reduzida em 20% e centralizado) */
+    .fap-reels-modal {
+      position: fixed;
+      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      box-sizing: border-box;
+    }
+    .fap-reels-content {
+      position: relative;
+      margin: auto;
+      width: 74vw;
+      width: min(calc(68vh * 9 / 16), 74vw);
+      width: min(calc(68dvh * 9 / 16), 74vw);
+      max-width: 320px;
+      max-height: 68vh;
+      max-height: 68dvh;
+    }
+    .fap-reels-iframe-wrapper {
+      width: 100%;
+      height: auto;
+      max-height: 68vh;
+      max-height: 68dvh;
+      aspect-ratio: 9 / 16;
+    }
     
     /* Trazemos o botão de fechar para um formato clicável e seguro no topo do frame */
     .fap-reels-close {
@@ -4985,7 +5015,7 @@ a {
       <div class="fap-team-carousel-container">
         <div class="fap-team-track" id="fapTeamTrack">
           
-          <!-- PERFIL 1 -->
+          <!-- PERFIL 1: BRUNO KUSTER -->
           <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Bruno Kuster">
             <div class="fap-team-photo">
               <img src="assets/p1.png" alt="Bruno Kuster" loading="lazy" decoding="async">
@@ -4994,7 +5024,7 @@ a {
               <p class="fap-team-role">Fisioterapeuta</p>
               <h3 class="fap-team-name">Bruno Kuster</h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Sócio-fundador da Clínica Alto de Pinheiros e especialista em Fisioterapia Musculoesquelética (Santa Casa). Seu foco clínico é a reabilitação aliada à educação em saúde e qualidade de vida, acompanhando cada paciente de forma individualizada em todas as etapas do tratamento.</p>
+              <p class="fap-team-bio">Minha trajetória na saúde começou em 2012, com a massoterapia. Formado em Fisioterapia e especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, sou sócio fundador da Fisioterapia Alto de Pinheiros. Minha paixão é promover qualidade de vida por meio do cuidado e da educação em saúde.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5002,33 +5032,16 @@ a {
             </div>
           </article>
 
-          <!-- PERFIL 2 -->
-          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Felipe Semaan">
-            <div class="fap-team-photo">
-              <img src="assets/p2.png" alt="Felipe Semaan" loading="lazy" decoding="async">
-            </div>
-            <div class="fap-team-card-body">
-              <p class="fap-team-role">Fisioterapeuta</p>
-              <h3 class="fap-team-name">Felipe Semaan</h3>
-              <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Fundador da Fisiocorpus e sócio da Clínica Alto de Pinheiros. Especialista em ortopedia e biomecânica, une tecnologia, técnica e empatia para oferecer excelência em reabilitação e retorno seguro às atividades diárias e esportivas.</p>
-              <span class="fap-team-readmore">
-                Ver bio completa
-                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-              </span>
-            </div>
-          </article>
-
-          <!-- PERFIL 3 -->
+          <!-- PERFIL 2: LUIS FERNANDO -->
           <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Luis Fernando">
             <div class="fap-team-photo">
-              <img src="assets/p3.png" alt="Luis Fernando" loading="lazy" decoding="async">
+              <img src="assets/p2.png" alt="Luis Fernando" loading="lazy" decoding="async">
             </div>
             <div class="fap-team-card-body">
               <p class="fap-team-role">Fisioterapeuta</p>
               <h3 class="fap-team-name">Luis Fernando</h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Sócio da Clínica Alto de Pinheiros e especialista em Fisioterapia Musculoesquelética (Santa Casa). Atua na área de ortopedia e esportes, integrando reabilitação física, prevenção de lesões e análise biomecânica do movimento.</p>
+              <p class="fap-team-bio">Minha paixão pelo movimento e pelos esportes me levou à fisioterapia. Especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, atuo com foco em ortopedia e reabilitação esportiva. Como sócio da Fisioterapia Alto de Pinheiros, busco unir conhecimento científico, movimento e cuidado individualizado.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5036,16 +5049,16 @@ a {
             </div>
           </article>
 
-          <!-- PERFIL 4 -->
-          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa do Profissional 4">
+          <!-- PERFIL 3: FELIPE SEMAAN -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Felipe Semaan">
             <div class="fap-team-photo">
-              <img src="assets/p1.png" alt="Nome do Profissional" loading="lazy" decoding="async">
+              <img src="assets/p3.png" alt="Felipe Semaan" loading="lazy" decoding="async">
             </div>
             <div class="fap-team-card-body">
-              <p class="fap-team-role">Especialidade</p>
-              <h3 class="fap-team-name">Nome do Profissional</h3>
+              <p class="fap-team-role">Fisioterapeuta</p>
+              <h3 class="fap-team-name">Felipe Semaan</h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p class="fap-team-bio">Minha paixão pela reabilitação começou ainda na época em que jogava vôlei. Especialista em Ortopedia e Traumatologia, com formação em postura e biomecânica, fundei a Fisiocorpus em 2005. Hoje, também sou sócio da Fisioterapia Alto de Pinheiros, unindo experiência, tecnologia e atendimento humanizado.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5053,16 +5066,16 @@ a {
             </div>
           </article>
 
-          <!-- PERFIL 5 -->
-          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa do Profissional 5">
+          <!-- PERFIL 4: BRUNO KUSTER (REPETIÇÃO) -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Bruno Kuster">
             <div class="fap-team-photo">
-              <img src="assets/p2.png" alt="Nome do Profissional" loading="lazy" decoding="async">
+              <img src="assets/p1.png" alt="Bruno Kuster" loading="lazy" decoding="async">
             </div>
             <div class="fap-team-card-body">
-              <p class="fap-team-role">Especialidade</p>
-              <h3 class="fap-team-name">Nome do Profissional</h3>
+              <p class="fap-team-role">Fisioterapeuta</p>
+              <h3 class="fap-team-name">Bruno Kuster</h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p class="fap-team-bio">Minha trajetória na saúde começou em 2012, com a massoterapia. Formado em Fisioterapia e especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, sou sócio fundador da Fisioterapia Alto de Pinheiros. Minha paixão é promover qualidade de vida por meio do cuidado e da educação em saúde.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5070,16 +5083,33 @@ a {
             </div>
           </article>
 
-          <!-- PERFIL 6 -->
-          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa do Profissional 6">
+          <!-- PERFIL 5: LUIS FERNANDO (REPETIÇÃO) -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Luis Fernando">
             <div class="fap-team-photo">
-              <img src="assets/p3.png" alt="Nome do Profissional" loading="lazy" decoding="async">
+              <img src="assets/p2.png" alt="Luis Fernando" loading="lazy" decoding="async">
             </div>
             <div class="fap-team-card-body">
-              <p class="fap-team-role">Especialidade</p>
-              <h3 class="fap-team-name">Nome do Profissional</h3>
+              <p class="fap-team-role">Fisioterapeuta</p>
+              <h3 class="fap-team-name">Luis Fernando</h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p class="fap-team-bio">Minha paixão pelo movimento e pelos esportes me levou à fisioterapia. Especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, atuo com foco em ortopedia e reabilitação esportiva. Como sócio da Fisioterapia Alto de Pinheiros, busco unir conhecimento científico, movimento e cuidado individualizado.</p>
+              <span class="fap-team-readmore">
+                Ver bio completa
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
+            </div>
+          </article>
+
+          <!-- PERFIL 6: FELIPE SEMAAN (REPETIÇÃO) -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Felipe Semaan">
+            <div class="fap-team-photo">
+              <img src="assets/p3.png" alt="Felipe Semaan" loading="lazy" decoding="async">
+            </div>
+            <div class="fap-team-card-body">
+              <p class="fap-team-role">Fisioterapeuta</p>
+              <h3 class="fap-team-name">Felipe Semaan</h3>
+              <div class="fap-team-card-divider" aria-hidden="true"></div>
+              <p class="fap-team-bio">Minha paixão pela reabilitação começou ainda na época em que jogava vôlei. Especialista em Ortopedia e Traumatologia, com formação em postura e biomecânica, fundei a Fisiocorpus em 2005. Hoje, também sou sócio da Fisioterapia Alto de Pinheiros, unindo experiência, tecnologia e atendimento humanizado.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
