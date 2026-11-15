@@ -1282,11 +1282,10 @@ a {
     color: var(--fap-white) !important;
   }
 
-  /* -------- Animação de Zoom Infinito -------- */
-  @keyframes subtleZoom {
+  /* -------- Slideshow Hero & Animação de Zoom Leve -------- */
+  @keyframes fapHeroZoom {
     0% { transform: scale(1); }
-    50% { transform: scale(1.06); }
-    100% { transform: scale(1); }
+    100% { transform: scale(1.06); }
   }
 
   /* -------- Imagem Web -------- */
@@ -1303,13 +1302,56 @@ a {
     background-color: var(--fap-secondary);
   }
 
-  .fap-hero-media img {
+  .fap-hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 0;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    pointer-events: none;
+  }
+
+  .fap-hero-slide picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .fap-hero-slide img {
     width: 100%; 
     height: 100%; 
     object-fit: cover; 
     object-position: center; 
     display: block;
-    animation: subtleZoom 14s ease-in-out infinite;
+    transform: scale(1);
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  /* Slide Anterior (mantém base sólida enquanto o novo surge sobre ele) */
+  .fap-hero-slide.is-prev {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+    transition: none;
+  }
+  .fap-hero-slide.is-prev img {
+    transform: scale(1.06);
+    animation: none;
+  }
+
+  /* Slide Ativo (surge por cima com fade-in suave e executa o zoom leve) */
+  .fap-hero-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+  }
+
+  .fap-hero-slide.is-active img {
+    animation: fapHeroZoom 3.6s ease-out forwards;
   }
 
   /* =========================================
@@ -1466,18 +1508,60 @@ a {
   <!-- Risca Paralela Inferior (Tablet/Mobile) -->
   <div class="fap-hero-mobile-curve-line" aria-hidden="true"></div>
 
-  <!-- Imagem -->
+  <!-- Slideshow de Imagens Hero -->
   <div class="fap-hero-media">
-    <picture>
-      <source media="(max-width: 1100px)" srcset="assets/capa4mob.png">
-      <img
-        src="assets/capa4.png"
-        alt="Equipe de fisioterapeutas da Fisioterapia Alto de Pinheiros"
-        width="820"
-        height="1000"
-        loading="eager"
-        fetchpriority="high">
-    </picture>
+    <!-- Slide 1 (Ativo Inicial) -->
+    <div class="fap-hero-slide is-active">
+      <picture>
+        <source media="(max-width: 1100px)" srcset="assets/capa1mob.png">
+        <img
+          src="assets/capa1web.png"
+          alt="Equipe de fisioterapeutas da Fisioterapia Alto de Pinheiros"
+          width="820"
+          height="1000"
+          loading="eager"
+          fetchpriority="high">
+      </picture>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="fap-hero-slide">
+      <picture>
+        <source media="(max-width: 1100px)" srcset="assets/capa2mob.png">
+        <img
+          src="assets/capa2web.png"
+          alt="Fisioterapia Alto de Pinheiros - Atendimento individualizado"
+          width="820"
+          height="1000"
+          loading="eager">
+      </picture>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="fap-hero-slide">
+      <picture>
+        <source media="(max-width: 1100px)" srcset="assets/capa3mob.png">
+        <img
+          src="assets/capa3web.png"
+          alt="Fisioterapia Alto de Pinheiros - Reabilitação ortopédica"
+          width="820"
+          height="1000"
+          loading="eager">
+      </picture>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="fap-hero-slide">
+      <picture>
+        <source media="(max-width: 1100px)" srcset="assets/capa4mob.png">
+        <img
+          src="assets/capa4web.png"
+          alt="Fisioterapia Alto de Pinheiros - Movimento e saúde"
+          width="820"
+          height="1000"
+          loading="eager">
+      </picture>
+    </div>
   </div>
 
   <!-- Conteúdo -->
@@ -1517,7 +1601,93 @@ a {
     </div>
   </div>
 
-</div></section>
+</div>
+
+<!-- ============================================
+     CONTROLE DO SLIDESHOW HERO
+     Troca de imagem a cada 3 segundos com leve zoom
+     ============================================ -->
+<script>
+(function() {
+  function initHeroSlideshow() {
+    var slides = document.querySelectorAll('.fap-hero-slide');
+    if (!slides || slides.length < 2) return;
+
+    // Pré-carrega todas as imagens para transição instantânea sem delay
+    var imagesToPreload = [
+      'assets/capa1web.png', 'assets/capa1mob.png',
+      'assets/capa2web.png', 'assets/capa2mob.png',
+      'assets/capa3web.png', 'assets/capa3mob.png',
+      'assets/capa4web.png', 'assets/capa4mob.png'
+    ];
+    imagesToPreload.forEach(function(src) {
+      var img = new Image();
+      img.src = src;
+    });
+
+    var current = 0;
+    var intervalMs = 3000;
+    var isTransitioning = false;
+
+    function nextSlide() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+
+      var prev = current;
+      current = (current + 1) % slides.length;
+
+      var prevSlide = slides[prev];
+      var nextSlide = slides[current];
+
+      // Mantém o slide anterior sólido na base (z-index 1)
+      prevSlide.classList.remove('is-active');
+      prevSlide.classList.add('is-prev');
+
+      // Limpa os demais slides
+      for (var i = 0; i < slides.length; i++) {
+        if (i !== prev && i !== current) {
+          slides[i].classList.remove('is-active', 'is-prev');
+        }
+      }
+
+      // Reinicia a animação de zoom do próximo slide para começar do zero
+      var img = nextSlide.querySelector('img');
+      if (img) {
+        img.style.animation = 'none';
+        void img.offsetHeight; // Força reflow
+        img.style.animation = '';
+      }
+
+      // Faz o próximo slide surgir suavemente por cima (z-index 2)
+      nextSlide.classList.add('is-active');
+
+      // Após a transição de opacidade (800ms), limpa o slide anterior
+      setTimeout(function() {
+        prevSlide.classList.remove('is-prev');
+        isTransitioning = false;
+      }, 850);
+    }
+
+    var timer = setInterval(nextSlide, intervalMs);
+
+    // Pausa a troca quando a aba estiver em segundo plano
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        clearInterval(timer);
+      } else {
+        clearInterval(timer);
+        timer = setInterval(nextSlide, intervalMs);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroSlideshow);
+  } else {
+    initHeroSlideshow();
+  }
+})();
+</script></section>
   <section id="embed-ajuda" class="embed" aria-label="Como podemos ajudar - Fisioterapia Ortopédica"><!-- ============================================
      EMBED 02 — INCÔMODOS / SERVIÇOS (#embed-incomodos)
      - Imagem de fundo com fusão suave em gradiente (SEM emendas nem cortes na divisa da sessão).
@@ -5725,6 +5895,7 @@ a {
     color: var(--fap-primary);
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition: opacity 0.3s ease, visibility 0.3s ease;
   }
 
@@ -5737,6 +5908,7 @@ a {
   .fap-alice-modal.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
   }
 
   .fap-alice-modal-backdrop {
@@ -5815,6 +5987,8 @@ a {
     background: rgba(168, 188, 174, 0.25);
     color: var(--fap-primary);
     cursor: pointer;
+    z-index: 10;
+    pointer-events: auto;
     transition: background-color 0.3s ease, transform 0.3s ease;
     -webkit-tap-highlight-color: transparent;
   }
@@ -5837,6 +6011,7 @@ a {
     stroke-width: 2.2;
     stroke-linecap: round;
     stroke-linejoin: round;
+    pointer-events: none;
   }
 
   /* Responsividade */
@@ -6063,8 +6238,17 @@ a {
 
     openBtn.addEventListener('click', openModal);
 
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeModal();
+      });
+    }
+
     modal.addEventListener('click', function (e) {
-      if (e.target.closest('[data-fap-close]')) closeModal();
+      if (e.target.closest('[data-fap-close]') || e.target === modal || (e.target && e.target.classList && e.target.classList.contains('fap-alice-modal-backdrop'))) {
+        closeModal();
+      }
     });
   })();
 </script>
@@ -6977,9 +7161,9 @@ a {
     background: rgba(15, 20, 17, 0.95);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease;
   }
-  .fap-gallery-modal.active { opacity: 1; pointer-events: auto; }
+  .fap-gallery-modal.active { opacity: 1; visibility: visible; pointer-events: auto; }
 
   .fap-gallery-content { position: relative; width: 90%; max-width: 1000px; height: 80vh; display: flex; align-items: center; justify-content: center; }
   
@@ -7234,7 +7418,7 @@ a {
 </main>
 
 <!-- ✅ CONFIRMADO: número real (11) 97878-2689 -->
-<a class="whatsapp-fab" href="https://wa.me/5511978782689" target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp" data-evento="whatsapp_flutuante">
+<a class="whatsapp-fab" href="https://wa.me/5511978782689?text=Ol%C3%A1%20vim%20pelo%20site..." target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp" data-evento="whatsapp_flutuante">
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
 </a>
@@ -7265,7 +7449,7 @@ a {
           <a href="https://www.instagram.com/fisioaltodepinheiros/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
           </a>
-          <a href="https://wa.me/5511978782689" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+          <a href="https://wa.me/5511978782689?text=Ol%C3%A1%20vim%20pelo%20site..." aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
           </a>
         </div>
@@ -7501,13 +7685,15 @@ document.addEventListener('DOMContentLoaded', () => {
     align-items: center;
     justify-content: center;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     padding: 20px;
     box-sizing: border-box;
   }
   .fap-global-modal.active {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
   }
 
@@ -7543,7 +7729,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor: pointer;
     transition: all 0.2s;
     color: var(--fap-primary, #2F3A32);
-    z-index: 10;
+    z-index: 30;
   }
   .fap-global-modal-close:hover {
     background: rgba(47, 58, 50, 0.2);
@@ -7557,6 +7743,122 @@ document.addEventListener('DOMContentLoaded', () => {
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  /* BLUR DO CONTEÚDO DE FUNDO DO FORMULÁRIO */
+  .fap-global-modal-inner-blurred {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    opacity: 0.35;
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* OVERLAY COM AVISO E BOTÃO WHATSAPP */
+  .fap-modal-notice-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 24px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 24px;
+    pointer-events: auto;
+  }
+
+  .fap-modal-notice-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(47, 58, 50, 0.1);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    padding: 36px 32px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+  }
+
+  .fap-modal-notice-title {
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--fap-primary, #2F3A32);
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+  }
+
+  .fap-modal-notice-desc {
+    font-size: 15px;
+    color: #555555;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+  }
+
+  /* CTA WHATSAPP: verde wpp, cantos arredondados, texto em 1 linha, altura baixa */
+  .fap-modal-wpp-cta {
+    background-color: #25D366;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+    border: none;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+    line-height: 1.2;
+    max-width: 100%;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .fap-modal-wpp-cta:hover {
+    background-color: #20bd5a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+  }
+
+  .fap-modal-wpp-cta:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+  }
+
+  .fap-modal-wpp-icon {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .fap-modal-wpp-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+
+  .fap-modal-wpp-label {
+    white-space: nowrap;
   }
 
   .fap-global-modal-header {
@@ -7615,7 +7917,7 @@ document.addEventListener('DOMContentLoaded', () => {
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 20;
+      z-index: 30;
       transition: background 0.2s ease, transform 0.15s ease;
       -webkit-tap-highlight-color: transparent;
     }
@@ -7627,6 +7929,32 @@ document.addEventListener('DOMContentLoaded', () => {
       width: 20px;
       height: 20px;
       stroke-width: 2.5;
+    }
+    .fap-modal-notice-overlay {
+      border-radius: 0;
+      padding: 20px 16px;
+    }
+    .fap-modal-notice-card {
+      padding: 28px 20px;
+      max-width: 360px;
+      border-radius: 18px;
+    }
+    .fap-modal-notice-title {
+      font-size: 18px;
+    }
+    .fap-modal-notice-desc {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .fap-modal-wpp-cta {
+      font-size: 14px;
+      padding: 9px 16px;
+      gap: 8px;
+    }
+    .fap-modal-wpp-icon,
+    .fap-modal-wpp-icon svg {
+      width: 20px;
+      height: 20px;
     }
     .fap-global-modal-header { 
       padding: max(64px, calc(env(safe-area-inset-top, 0px) + 56px)) 24px 14px 24px; 
@@ -7664,16 +7992,36 @@ document.addEventListener('DOMContentLoaded', () => {
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
     
-    <div class="fap-global-modal-header">
-      <h3 class="fap-global-modal-title" id="fap-modal-title">Fale Conosco</h3>
-      <p class="fap-global-modal-subtitle">Preencha seus dados abaixo para iniciar sua jornada de recuperação. Nossa equipe entrará em contato o mais breve possível!</p>
+    <!-- CONTEÚDO DE FUNDO COM EFEITO BLUR -->
+    <div class="fap-global-modal-inner-blurred" aria-hidden="true">
+      <div class="fap-global-modal-header">
+        <h3 class="fap-global-modal-title" id="fap-modal-title">Fale Conosco</h3>
+        <p class="fap-global-modal-subtitle">Preencha seus dados abaixo para iniciar sua jornada de recuperação. Nossa equipe entrará em contato o mais breve possível!</p>
+      </div>
+
+      <div class="fap-global-modal-body">
+        <!-- CONTAINER PARA CORTAR LOGO DO KOMMO -->
+        <div class="fap-kommo-wrapper">
+          <!-- Código do Kommo Form -->
+          <script>!function(a,m,o,c,r,m){a[o+c]=a[o+c]||{setMeta:function(p){this.params=(this.params||[]).concat([p])}},a[o+r]=a[o+r]||function(f){a[o+r].f=(a[o+r].f||[]).concat([f])},a[o+r]({id:"1732787",hash:"ae5fa6532bb2fb56b526a8a6e0aa4169",locale:"pt"}),a[o+m]=a[o+m]||function(f,k){a[o+m].f=(a[o+m].f||[]).concat([[f,k]])}}(window,0,"amo_forms_","params","load","loaded");</script><script id="amoforms_script_1732787" async="async" charset="utf-8" src="https://forms.kommo.com/forms/assets/js/amoforms.js?1791532204"></script>
+        </div>
+      </div>
     </div>
 
-    <div class="fap-global-modal-body">
-      <!-- CONTAINER PARA CORTAR LOGO DO KOMMO -->
-      <div class="fap-kommo-wrapper">
-        <!-- Código do Kommo Form -->
-        <script>!function(a,m,o,c,r,m){a[o+c]=a[o+c]||{setMeta:function(p){this.params=(this.params||[]).concat([p])}},a[o+r]=a[o+r]||function(f){a[o+r].f=(a[o+r].f||[]).concat([f])},a[o+r]({id:"1732787",hash:"ae5fa6532bb2fb56b526a8a6e0aa4169",locale:"pt"}),a[o+m]=a[o+m]||function(f,k){a[o+m].f=(a[o+m].f||[]).concat([[f,k]])}}(window,0,"amo_forms_","params","load","loaded");</script><script id="amoforms_script_1732787" async="async" charset="utf-8" src="https://forms.kommo.com/forms/assets/js/amoforms.js?1791532204"></script>
+    <!-- AVISO EM DESTAQUE NA FRENTE -->
+    <div class="fap-modal-notice-overlay" aria-live="polite">
+      <div class="fap-modal-notice-card">
+        <h4 class="fap-modal-notice-title">Formulário sendo atualizado</h4>
+        <p class="fap-modal-notice-desc">Agende sua consulta clicando abaixo:</p>
+        <a href="https://wa.me/5511978782689?text=Ol%C3%A1%20vim%20pelo%20site..." target="_blank" rel="noopener noreferrer" class="fap-modal-wpp-cta" data-evento="agendar_whatsapp_modal">
+          <span class="fap-modal-wpp-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path fill="#ffffff" d="M12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 12.05 0z"/>
+              <path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+            </svg>
+          </span>
+          <span class="fap-modal-wpp-label">Agendar consulta por WhatsApp</span>
+        </a>
       </div>
     </div>
   </div>
@@ -7738,13 +8086,13 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 (function() {
   'use strict';
-  // 1. Bloqueia duplo toque para zoom (double-tap to zoom)
+  // 1. Bloqueia duplo toque para zoom (double-tap to zoom) sem interferir em elementos clicáveis
   var lastTouchEnd = 0;
   document.addEventListener('touchend', function(e) {
     var now = Date.now();
     if (now - lastTouchEnd <= 300) {
-      var tag = e.target && e.target.tagName;
-      if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+      var interactive = e.target && e.target.closest && e.target.closest('a, button, [role="button"], input, textarea, select, label, summary, [data-fap-close], [data-fap-open], .fap-alice-modal-close, .fap-global-modal-close, .fap-reels-close, .fap-team-modal-close, .fap-modal-close, .fap-gallery-close');
+      if (!interactive) {
         e.preventDefault();
       }
     }
