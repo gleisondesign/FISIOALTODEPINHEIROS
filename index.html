@@ -4466,7 +4466,7 @@ a {
 - Divisórias em curvas (barrigas) integradas na cor institucional (#2F3A32).
 - Cabeçalho (Tag, Título e Descrição) 100% padronizado com a Sessão 02.
 - Cards Branco Clean com border-radius de 22px (Desktop) e 20px (Mobile), sem sombras cortadas.
-- 6 perfis com resumo no card e abertura de Card Completo (Modal) ao clicar.
+- 7 perfis com resumo no card e abertura de Card Completo (Modal) ao clicar.
      ============================================ -->
 
 <style>
@@ -4572,7 +4572,8 @@ a {
   }
 
   .fap-team-header-text {
-    max-width: 680px;
+    width: 100%;
+    max-width: 100%;
     text-align: left;
   }
 
@@ -4600,6 +4601,12 @@ a {
     line-height: 1.15;
     color: var(--fap-white);
     margin: 0 0 18px 0;
+  }
+
+  @media (min-width: 769px) {
+    .fap-team-title {
+      white-space: nowrap;
+    }
   }
 
   .fap-team-subtitle {
@@ -4771,12 +4778,20 @@ a {
 
   /* NOME DO PROFISSIONAL */
   .fap-team-name {
-    font-size: 22px;
+    font-size: clamp(15px, 1.45vw, 20px);
     font-weight: 800;
     color: var(--fap-text-dark);
     margin: 0 0 10px 0;
     letter-spacing: -0.4px;
     line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .fap-team-crefito {
+    font-size: clamp(9.5px, 0.85vw, 12px);
+    font-weight: 500;
+    color: var(--fap-text-muted);
+    letter-spacing: 0;
   }
 
   /* LINHA DIVISÓRIA EDITORIAL */
@@ -5032,6 +5047,14 @@ a {
     line-height: 1.2;
   }
 
+  .fap-team-modal-name .fap-team-crefito {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--fap-text-muted);
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
   .fap-team-modal-divider {
     width: 48px;
     height: 3px;
@@ -5056,6 +5079,12 @@ a {
     .fap-team-card {
       flex: 0 0 calc((100% - 20px) / 2);
       border-radius: 22px;
+    }
+    .fap-team-name {
+      font-size: clamp(16.5px, 2vw, 21px);
+    }
+    .fap-team-crefito {
+      font-size: clamp(10.5px, 1.1vw, 12px);
     }
   }
 
@@ -5114,7 +5143,11 @@ a {
     }
 
     .fap-team-name {
-      font-size: 21px;
+      font-size: clamp(13px, 3.85vw, 18px);
+    }
+
+    .fap-team-crefito {
+      font-size: clamp(8.5px, 2.5vw, 11.5px);
     }
 
     .fap-team-bio {
@@ -5192,9 +5225,9 @@ a {
             </div>
             <div class="fap-team-card-body">
               <p class="fap-team-role">Fisioterapeuta</p>
-              <h3 class="fap-team-name">Bruno Kuster</h3>
+              <h3 class="fap-team-name">Bruno Kuster <span class="fap-team-crefito">- CREFITO 3/277720F</span></h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Minha trajetória na saúde começou em 2012, com a massoterapia. Formado em Fisioterapia e especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, sou sócio fundador da Fisioterapia Alto de Pinheiros. Minha paixão é promover qualidade de vida por meio do cuidado e da educação em saúde.</p>
+              <p class="fap-team-bio">Minha trajetória na área da saúde começou em 2012, com a formação técnica em Massoterapia. Foi nesse primeiro contato com o cuidado humano que descobri minha identificação com a área e encontrei na Fisioterapia meu propósito profissional.&#10;&#10;Sou fisioterapeuta, especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo e sócio-fundador da Fisioterapia Alto de Pinheiros.&#10;&#10;Acredito que promover saúde vai além de tratar sintomas ou recuperar movimentos. É proporcionar autonomia, ampliar possibilidades e ajudar cada pessoa a compreender melhor o próprio corpo.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5202,33 +5235,16 @@ a {
             </div>
           </article>
 
-          <!-- PERFIL 2: LUIS FERNANDO -->
-          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Luis Fernando">
-            <div class="fap-team-photo">
-              <img src="assets/p2.png" alt="Luis Fernando" loading="lazy" decoding="async">
-            </div>
-            <div class="fap-team-card-body">
-              <p class="fap-team-role">Fisioterapeuta</p>
-              <h3 class="fap-team-name">Luis Fernando</h3>
-              <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Minha paixão pelo movimento e pelos esportes me levou à fisioterapia. Especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, atuo com foco em ortopedia e reabilitação esportiva. Como sócio da Fisioterapia Alto de Pinheiros, busco unir conhecimento científico, movimento e cuidado individualizado.</p>
-              <span class="fap-team-readmore">
-                Ver bio completa
-                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-              </span>
-            </div>
-          </article>
-
-          <!-- PERFIL 3: FELIPE SEMAAN -->
+          <!-- PERFIL 2: FELIPE SEMAAN -->
           <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Felipe Semaan">
             <div class="fap-team-photo">
-              <img src="assets/p3.png" alt="Felipe Semaan" loading="lazy" decoding="async">
+              <img src="assets/p2.png" alt="Felipe Semaan" loading="lazy" decoding="async">
             </div>
             <div class="fap-team-card-body">
               <p class="fap-team-role">Fisioterapeuta</p>
-              <h3 class="fap-team-name">Felipe Semaan</h3>
+              <h3 class="fap-team-name">Felipe Semaan <span class="fap-team-crefito">- CREFITO 3/67612F</span></h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Minha paixão pela reabilitação começou ainda na época em que jogava vôlei. Especialista em Ortopedia e Traumatologia, com formação em postura e biomecânica, fundei a Fisiocorpus em 2005. Hoje, também sou sócio da Fisioterapia Alto de Pinheiros, unindo experiência, tecnologia e atendimento humanizado.</p>
+              <p class="fap-team-bio">Me aproximei pelo processo de reabilitação quando jogava vôlei. Me formei fisioterapeuta e depois Especialista em Ortopedia e Traumatologia, com formação em postura e biomecânica, fundei a Fisiocorpus em 2005 e fui professor universitário nessas áreas. Hoje, também sou sócio da Fisioterapia Alto de Pinheiros, unindo experiência, tecnologia e atendimento humanizado.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5236,33 +5252,16 @@ a {
             </div>
           </article>
 
-          <!-- PERFIL 4: BRUNO KUSTER (REPETIÇÃO) -->
-          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Bruno Kuster">
-            <div class="fap-team-photo">
-              <img src="assets/p1.png" alt="Bruno Kuster" loading="lazy" decoding="async">
-            </div>
-            <div class="fap-team-card-body">
-              <p class="fap-team-role">Fisioterapeuta</p>
-              <h3 class="fap-team-name">Bruno Kuster</h3>
-              <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Minha trajetória na saúde começou em 2012, com a massoterapia. Formado em Fisioterapia e especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, sou sócio fundador da Fisioterapia Alto de Pinheiros. Minha paixão é promover qualidade de vida por meio do cuidado e da educação em saúde.</p>
-              <span class="fap-team-readmore">
-                Ver bio completa
-                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-              </span>
-            </div>
-          </article>
-
-          <!-- PERFIL 5: LUIS FERNANDO (REPETIÇÃO) -->
+          <!-- PERFIL 3: LUIS FERNANDO -->
           <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Luis Fernando">
             <div class="fap-team-photo">
-              <img src="assets/p2.png" alt="Luis Fernando" loading="lazy" decoding="async">
+              <img src="assets/p3.png" alt="Luis Fernando" loading="lazy" decoding="async">
             </div>
             <div class="fap-team-card-body">
               <p class="fap-team-role">Fisioterapeuta</p>
-              <h3 class="fap-team-name">Luis Fernando</h3>
+              <h3 class="fap-team-name">Luis Fernando <span class="fap-team-crefito">- CREFITO 3/236654F</span></h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Minha paixão pelo movimento e pelos esportes me levou à fisioterapia. Especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, atuo com foco em ortopedia e reabilitação esportiva. Como sócio da Fisioterapia Alto de Pinheiros, busco unir conhecimento científico, movimento e cuidado individualizado.</p>
+              <p class="fap-team-bio">Minha paixão pelo movimento e pelos esportes me levou à fisioterapia. Especialista em Fisioterapia Musculoesquelética pela Santa Casa de São Paulo, atuo com foco em ortopedia e reabilitação esportiva.&#10;&#10;Como sócio da Fisioterapia Alto de Pinheiros, busco unir conhecimento científico, movimento e cuidado individualizado.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5270,16 +5269,67 @@ a {
             </div>
           </article>
 
-          <!-- PERFIL 6: FELIPE SEMAAN (REPETIÇÃO) -->
-          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Felipe Semaan">
+          <!-- PERFIL 4: NATALIA -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Natália Scolari">
             <div class="fap-team-photo">
-              <img src="assets/p3.png" alt="Felipe Semaan" loading="lazy" decoding="async">
+              <img src="assets/p4.png" alt="Natália Scolari" loading="lazy" decoding="async">
             </div>
             <div class="fap-team-card-body">
               <p class="fap-team-role">Fisioterapeuta</p>
-              <h3 class="fap-team-name">Felipe Semaan</h3>
+              <h3 class="fap-team-name">Natália Scolari <span class="fap-team-crefito">- CREFITO 3/252705F</span></h3>
               <div class="fap-team-card-divider" aria-hidden="true"></div>
-              <p class="fap-team-bio">Minha paixão pela reabilitação começou ainda na época em que jogava vôlei. Especialista em Ortopedia e Traumatologia, com formação em postura e biomecânica, fundei a Fisiocorpus em 2005. Hoje, também sou sócio da Fisioterapia Alto de Pinheiros, unindo experiência, tecnologia e atendimento humanizado.</p>
+              <p class="fap-team-bio">Sou fisioterapeuta há 9 anos, formada pela UNIFEOB, com pós-graduação em Fisioterapia Esportiva pelo CETE/UNIFESP. Sou apaixonada por ortopedia e fisioterapia esportiva.&#10;&#10;Tenho experiência com a Seleção Brasileira de Rugby e a Federação Paulista de Futebol, além de cursos de aperfeiçoamento em terapia manual e ortopedia. Minha trajetória profissional reúne experiências em diferentes contextos da fisioterapia, que contribuem para ampliar meu olhar sobre o movimento, a reabilitação e o cuidado com cada paciente.</p>
+              <span class="fap-team-readmore">
+                Ver bio completa
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
+            </div>
+          </article>
+
+          <!-- PERFIL 5: EDUARDA -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Eduarda Mayumi">
+            <div class="fap-team-photo">
+              <img src="assets/p5.png" alt="Eduarda Mayumi" loading="lazy" decoding="async">
+            </div>
+            <div class="fap-team-card-body">
+              <p class="fap-team-role">Fisioterapeuta</p>
+              <h3 class="fap-team-name">Eduarda Mayumi <span class="fap-team-crefito">- CREFITO 3/426192F</span></h3>
+              <div class="fap-team-card-divider" aria-hidden="true"></div>
+              <p class="fap-team-bio">Graduada pela Universidade Estadual Paulista “Júlio de Mesquita Filho” (Unesp), em Presidente Prudente, e especializanda em Fisioterapia Musculoesquelética pela Faculdade de Ciências Médicas da Santa Casa de São Paulo.&#10;&#10;Além disso, possui formação em técnicas manipulativas, Pilates pela Voll e Treinamento Funcional Bruno Nunes.</p>
+              <span class="fap-team-readmore">
+                Ver bio completa
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
+            </div>
+          </article>
+
+          <!-- PERFIL 6: ANDRE -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de André Carmo">
+            <div class="fap-team-photo">
+              <img src="assets/p6.png" alt="André Carmo" loading="lazy" decoding="async">
+            </div>
+            <div class="fap-team-card-body">
+              <p class="fap-team-role">Fisioterapeuta</p>
+              <h3 class="fap-team-name">André Carmo <span class="fap-team-crefito">- CREFITO 3/380030F</span></h3>
+              <div class="fap-team-card-divider" aria-hidden="true"></div>
+              <p class="fap-team-bio">Sou fisioterapeuta há 4 anos, formado pela Universidade Cidade de São Paulo (UNICID), em 2022. Possuo pós-graduação em Fisioterapia nas Afecções da Coluna Vertebral (2024) e em Fisioterapia Musculoesquelética (2026), ambas pela Faculdade de Ciências Médicas da Santa Casa de São Paulo, além de aperfeiçoamento em Terapia Manual.&#10;&#10;Minha atuação é voltada à avaliação individualizada e à reabilitação de disfunções musculoesqueléticas, com foco no tratamento da dor, na recuperação funcional e na promoção da qualidade de vida de cada paciente.</p>
+              <span class="fap-team-readmore">
+                Ver bio completa
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
+            </div>
+          </article>
+
+          <!-- PERFIL 7: VANESSA -->
+          <article class="fap-team-card" role="button" tabindex="0" aria-label="Ver biografia completa de Vanessa Souza">
+            <div class="fap-team-photo">
+              <img src="assets/p7.png" alt="Vanessa Souza" loading="lazy" decoding="async">
+            </div>
+            <div class="fap-team-card-body">
+              <p class="fap-team-role">Fisioterapeuta</p>
+              <h3 class="fap-team-name">Vanessa Souza <span class="fap-team-crefito">- CREFITO 3/183218F</span></h3>
+              <div class="fap-team-card-divider" aria-hidden="true"></div>
+              <p class="fap-team-bio">Graduada pela Universidade de Mogi das Cruzes e pós-graduada em Ortopedia, Trauma e Esporte pela Faculdade de Ciências Médicas da Santa Casa de São Paulo (FCMSCSP).&#10;&#10;Formada em Terapia Manual nos métodos Maitland®, Mulligan®, Quiropraxia Clínica e Liberação Miofascial.&#10;&#10;Possui aprimoramento em performance, fisiologia do exercício e avaliação musculoesquelética baseada em evidências, formação internacional nos níveis I e II de PNF® e formação internacional em reabilitação do joelho pela SBCJ.</p>
               <span class="fap-team-readmore">
                 Ver bio completa
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -5483,7 +5533,7 @@ a {
         modalImg.alt = imgEl.getAttribute('alt') || '';
       }
       if (roleEl && modalRole) modalRole.textContent = roleEl.textContent;
-      if (nameEl && modalName) modalName.textContent = nameEl.textContent;
+      if (nameEl && modalName) modalName.innerHTML = nameEl.innerHTML;
       if (bioEl && modalBio) modalBio.textContent = bioEl.textContent;
 
       modal.classList.add('is-open');
